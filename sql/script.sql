@@ -14,7 +14,8 @@ CREATE TABLE usuario(
     idusuario smallint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre varchar(60) NOT NULL,
     apellidos varchar(80) NOT NULL,
-    contrasenia varchar(15) NOT NULL
+    contrasenia varchar(15) NOT NULL,
+    tipo char(1) CHECK(a,u) NOT NULL
 );
 
 -- TABLA CATEGORIA
