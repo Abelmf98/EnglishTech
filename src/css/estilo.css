@@ -15,6 +15,7 @@ header{
     background-color: #1cb0f6;
     align-items: center;
     padding: 10px;
+    top:0;
 }
 
 .logo{
@@ -64,9 +65,11 @@ footer{
     display: flex;
     justify-content: space-between;
     background-color: #1cb0f6;
-    margin-top: 287px;
-    padding-right: 10px;
-    padding-left: 10px;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    position: absolute;
+  
 }
 
 
@@ -109,7 +112,12 @@ footer{
 }
 
 .pie{
-    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    background-color: #1cb0f6;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
 }
 
 .caja h3 a:hover{
@@ -127,6 +135,11 @@ form input{
     margin: 10px 0px 20px 10px;
     padding: 10px;
     border-radius: 10px;
+}
+
+label{
+    font-weight: bold;
+    margin-left: 10px;
 }
 
 form input[type="text"]{
@@ -147,6 +160,10 @@ form input[type="submit"]:hover{
 
 .juego img{
     width: 300px;
+}
+
+.juego{
+    margin-top: 0;
 }
 
 .menu-juego div{
@@ -172,6 +189,61 @@ span{
     color: green;
 }
 
+form h1{
+    padding: 10px;
+}
+/*******************/
+
+.login{
+    border-radius: 20px;
+    border: 1px solid rgba(180, 153, 153, 0.84);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 5px 10px rgb(0,0,0,0.12);
+    margin-top: 50px;
+}
+
+.login input[type="text"]{ 
+    width: 200px;
+}
+
+.login input[type="password"]{ 
+    width: 200px;
+}
+
+.login input[type="submit"]{ 
+    width: 100px;
+}
+
+.pie-login{
+    margin-top: 486px;
+}
+
+
+h4 a{
+    color: greenyellow;
+}
+
+#false{
+    color: red;
+}
+
+#true{
+    color: green;
+}
+
+.d{
+    color: greenyellow;
+}
+
+span a{
+    color:red;
+}
 
 
 @media (max-width:700px){

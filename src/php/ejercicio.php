@@ -1,4 +1,11 @@
-
+<?php
+/**
+     * @file ejercicio.php
+     * Archivo para hacer el ejercicio.
+     * @author Abel Mansilla Felipe (amansillafelipe.guadalupe@alumnado.fundacionloyola.net)
+     * @license GPLv3 2022.
+     */
+?>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -9,98 +16,115 @@
         <title>EnglishTech</title>
     </head>
     <body>
-        <?php
-        echo '
-        <header>
+    <header>
             <a href="#" class="logo">
                 <img src="../img/logo.png" alt="logo">
                 <h2 class="nombre">EnglishTech</h2>
             </a>
             <nav>
                 <a href="index.html" class="nav">Inicio</a>
-                <a href="#" class="nav">Sobre Nosotros</a>
             </nav>
-        </header>
-        <main class="menu-juego-php">
-        ';
-        require_once 'metodos.php';
-        $objMetodo = new metodos();
+        </header>    
+    <main class="menu-juego-php">
+        <?php
+            require_once 'metodos.php';
 
-        $consulta = 'SELECT * 
-                        FROM vocabulario
-                        WHERE idcategoria = '.$_GET["t"].';';
-        $objMetodo->realizarconsulta($consulta);
-       /*  $numero = $objMetodo->comprobarnumrow();
-        echo $numero; */
+            $objMetodo = new metodos();
 
-        if($objMetodo->comprobarnumrow()<0){
-            echo 'Se ha producido un error';
+            /**
+             * Preparamos la consulta con la cual sacaremos valores unicos combinando tablas
+             */
+            $consulta = ' SELECT DISTINCT(e.idejercicio), e.descripcion
+                FROM vocabulario_ejercicio ve
+                INNER JOIN ejercicio e
+                ON ve.idejercicio = e.idejercicio
+                INNER JOIN vocabulario v
+                ON v.idvocabulario = ve.idvocabulario
+                WHERE idcategoria = '.$_GET["t"].'
+            ';
+            /**
+             * Lanzamos la consulta
+             */
+            $objMetodo->realizarconsulta($consulta);
+
+            /**
+             * Formulario para seleccionar el ejercicio que desea hacer de los guardados
+             */
+            if(!isset($_POST["enviar"]) && (!isset($_POST["enviar2"]))){
+
+            echo '
+                <form class="login" action="#" method="POST">
+                    <label>Seleccione el ejercicio que desea realizar</label>
+                    <select name="ejercicio">
+                    ';
+                    while($fila=$objMetodo->extraerfila()){
+
+                        echo '
+                            <option value="'.$fila["idejercicio"].'">'.$fila["descripcion"].'</option>
+                        ';
+                    }
+                    echo '
+                    </select>
+                    <input type="submit" name="enviar" value="Enviar"/>
+                </form> 
+            ';
         }else{
-            if($objMetodo->comprobarnumrow()== 0){
-                echo 'No hay datos';
-            }else{
 
-                /* for($i = 0;$i<$numero; $i++){
-                    $a = array(
-                        "$i" => $fila["idvocabulario"],
-                    );
-                }
-                print_r($a);  */ 
-                    
-                /* 
-                $colores = array("1", "2", "3", "4", "5", "6");
-                echo "Array original";
-                var_export ($colores);
-                echo "Valor aleatorio: ". $colores[array_rand($colores)]; */
-
-                $consulta2 = 'SELECT * 
-                        FROM vocabulario
-                        WHERE idcategoria = '.$_GET["t"].' ;';
-                $objMetodo->realizarconsulta($consulta2);
-
-                if(!isset($_POST["Enviar"])){
+            if(isset($_POST["enviar"]) && (!isset($_POST["enviar2"]))){
+                /**
+                 * Preparamos la consulta con la cual necesitaremos combinar tablas
+                 */
+                $consulta = ' SELECT v.idvocabulario, v.palabrasES, v.palabrasEN, v.Imagen
+                            FROM vocabulario_ejercicio ve
+                            INNER JOIN vocabulario v
+                            ON v.idvocabulario = ve.idvocabulario
+                            WHERE idejercicio = '.$_POST["ejercicio"].';
+                ';
+                /**
+                 * Lanzamos la consulta
+                 */
+                $objMetodo->realizarconsulta($consulta);
                 $fila = $objMetodo->extraerfila();
-                
+                /**
+                 * Formulario del ejercicio a hacer
+                 */
                 echo '<form action="#" method="post">
                 <div class="juego">
-                    <img src="../img/'.$fila["Imagen"].'" alt="Animal">
+                    <img src="'.$fila["Imagen"].'" alt="'.$fila["palabrasES"].'">
                     <h3>'.$fila["palabrasES"].'</h3>
                         <label>Introduzca el nombre en ingles de la imagen: </label>
                         <input type="text" placeholder="Introduce lo que ves en la imagen" name="palabrasEN">
                         <input type="hidden" name="palabrasES" value="'.$fila["palabrasES"].'">
                         </div>
-                
-                    <input type="submit" name="Enviar" value="Enviar Respuesta">
+                    <input type="submit" name="enviar2" value="Enviar Respuesta">
                 </form>
             ';
-
             }else{
-               if(!empty($_POST["palabrasEN"])){
+                /**
+                 * Comprobación de la respuesta
+                 */
+                if(!empty($_POST["palabrasEN"])){
                     $consulta = "SELECT *
                                 FROM vocabulario
                                 WHERE palabrasEN = '".$_POST["palabrasEN"]."' AND palabrasES = '".$_POST["palabrasES"]."';";
-                    $objMetodo->realizarconsulta($consulta);
-                    if($objMetodo->comprobarnumrow()>0){
-                        echo '<h3 class="true">La respuestas es correcta</h3>';
-                    }else{
-                        echo '<h3><span>Respuesta incorrecta, intentalo de nuevo<span></h3>';
-                    }
-               }else{
-                   echo 'Se deben rellenar todos los campos';
-               }
-            }
-            echo '
-            </main>
-        ';
+                   $objMetodo->realizarconsulta($consulta);
+
+                   if($objMetodo->comprobarnumrow()>0){
+                    echo '<h3 class="true"><a class="true"href="categorias.html">La respuestas es correcta</a></h3>'.'<br>';
+                   }else{
+                    echo '<h3><span><a href="index.html">Respuesta incorrecta, intentalo de nuevo</a></span></h3>'.'<br>';
+                   }
+                }else{
+                    echo 'Se deben rellenar todos los campos';
+                }
             }
         }
-        echo '
-        <footer class="pie-juego">
+        ?>
+    </main>     
+    <footer class="pie-juego">
             <h5><a>Contáctanos - 924 00 22 77</a></h5>
             <h5><a>Aviso Legal</a></h5>
             <h5><a>Política de Privacidad</a></h5>
         </footer>
-        ';
-        ?>
     </body>
 </html>
