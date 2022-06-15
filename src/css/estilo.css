@@ -248,6 +248,10 @@ span a{
     color:red;
 }
 
+h3 a{
+    color: greenyellow;
+}
+
 
 @media (max-width:700px){
     header, footer{
