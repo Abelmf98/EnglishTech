@@ -98,7 +98,9 @@
             echo '<h3 class="false">No es correcto</h3>';
             echo '<h3 class="true"><a href="login.php">Volver al login</a></h3>';
         }
-        
+    }else{
+        echo '<h3 class="false">Creedenciales incorrectas, pruebe de nuevo</h3>';
+        echo '<h3 class="true"><a href="login.php">Volver al login</a></h3>';
     }
     ?>
     </main>
