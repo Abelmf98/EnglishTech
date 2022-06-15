@@ -22,8 +22,7 @@
             <h2 class="nombre">EnglishTech</h2>
         </a>
         <nav>
-            <a href="index.html" class="nav">Inicio</a>
-            <a href="#" class="nav">Sobre Nosotros</a>
+            <a href="index.php" class="nav">Inicio</a>
         </nav>
     </header>
     <main>
@@ -31,50 +30,76 @@
     /**
      * Necesitaremos el archivo conexion bd y el archivos de metodos mysqli
      */
-        require_once 'conexionbd.php';
-        require_once 'metodos.php';
+    session_start();
+    require_once 'metodos.php';
+
+    /**
+     * Objeto de la clase metodos
+     */
+    $objMetodos = new metodos();
+
+    /**
+     * Hacemos la consulta
+     */
+    $consultapass = "SELECT contrasenia
+                    FROM usuario
+                    WHERE nombre = '".$_POST["nombre"]."';";
+    $objMetodos->realizarconsulta($consultapass);
+
+    /**
+     * Comprobamos si devuelve filas
+     */
+    if($objMetodos->comprobarnumrow()>0){
+        /**
+         * Extraemos las filas que hemos devuelto
+         */
+        $fila=$objMetodos->extraerfila();
+        /**
+         * guardamos en una variable hash la contraseña que obtenemos de la consulta anterior
+         */
+        $hash= $fila["contrasenia"];
 
         /**
-         * Instanciamos un objeto de la clase metodos
+         * Comprobamos mediante el metodo verify, si las credenciales coinciden con las de las bd
          */
-        $objResultado = new metodos();
-
-        /**
-         * Creamos la variable consulta para escribir la consulta que 
-         * realizaremos en la base de datos
-         */
-        $consulta = "
-                SELECT *
-                FROM usuario
-                WHERE nombre ='".$_POST["nombre"]."' && contrasenia ='".$_POST["password"]."';
-            ";
-        /**
-         * Llamamos al metodo que contienen el query para realizar la consulta escrita
-         */
-        $objResultado->realizarconsulta($consulta);
-
-        /**
-         * Comprobamos si me devuelve alguna fila
-         */
-        if($objResultado->comprobarnumrow()){
+        if($objMetodos->verificar($_POST["password"], $hash)){
             /**
-             * Método para iniciar la sesión
+             * Hacemos la consulta con la contraseña encriptada
              */
-            session_start();
-            $_SESSION["nombre"] = $_POST["nombre"];
-            $_SESSION["contrasenia"] = $_POST["password"];
-            echo '<h3 id="true">Se ha iniciado sesion correctamente al usuario '.$_SESSION["nombre"].'</h3>';
-            echo '<h4><a class="d" href="index.html">Volver a inicio</a></h4>';
+            $consulta =
+                "
+                    SELECT *
+                    FROM usuario
+                    WHERE nombre='" . $_POST["nombre"] . "' && contrasenia='" . $hash . "';
+                ";
+            $objMetodos->realizarconsulta($consulta);
+
             /**
-             * Método para cerrar la sesión
+             * Comprobamos si nos devuelve filas
              */
-            session_destroy();
+            if($objMetodos->comprobarnumrow()>0){
+                $fila = $objMetodos->extraerfila();
+
+                /**
+                 * Sesiones creadas
+                 */
+                $_SESSION["nombre"] = $fila["nombre"];
+                $_SESSION["tipo"] = $fila["tipo"];
+
+                
+                echo '<h3 class="true">El inicio de sesión se ha realizado correctamente</h3>';
+                echo '<h3 class="true"><a href="index.php">Volver a inicio</a></h3>';
+
+            }else{
+                echo '<h3 class="false">Credenciales erroneas</h3>';
+            }
+            
+        }else{
+            echo '<h3 class="false">No es correcto</h3>';
+            echo '<h3 class="true"><a href="login.php">Volver al login</a></h3>';
         }
-        else
-       {
-           echo '<h3 id="false">No se ha podidio iniciar sesion al usuario '.$_POST["nombre"].',  ya que el usuario no existe o los datos no son correctos</h3><br>';
-           echo '<h4><a href="login.php">Volver al login</a></h4>';
-       }    
+        
+    }
     ?>
     </main>
     <footer class="pie-login">

@@ -67,5 +67,21 @@ require_once 'conexionbd.php';
       return $this->mysqli->insert_id;
     }
 
+    /**
+     * Método para encriptar las contraseñas
+     */
+    function encriptar($password)
+    {
+        return password_hash("$password", PASSWORD_DEFAULT);
+    }
+
+    /**
+     * Método para verificar las contraseñas encriptadas
+     */
+    function verificar($password, $hash)
+    {
+        return password_verify("$password", $hash);
+    }
+
   }
 ?>

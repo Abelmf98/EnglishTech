@@ -22,7 +22,7 @@
             <h2 class="nombre">EnglishTech</h2>
         </a>
         <nav>
-            <a href="index.html" class="nav">Inicio</a>
+            <a href="index.php" class="nav">Inicio</a>
         </nav>
     </header>
     <main>
@@ -78,10 +78,10 @@
                      */
                     if($objMetodo->comprobar()>0){
                         echo '<h3>Se ha añadido la categoria correctamente</h3>';
-                        echo '<a class="d" href="preparar.php">Crear ejercicio</a>';
+                        echo '<a class="d" href="addvocabulario.php">Añadir vocabulario</a>';
                     }else{
                         echo '<h3>Se ha producido un error al añadir la categoria</h3>';
-                        echo '<a class="d" href="index.html">Volver a inicio</a>';
+                        echo '<a class="d" href="index.php">Volver a inicio</a>';
                     }
                 }
                 

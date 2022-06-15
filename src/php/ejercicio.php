@@ -22,11 +22,13 @@
                 <h2 class="nombre">EnglishTech</h2>
             </a>
             <nav>
-                <a href="index.html" class="nav">Inicio</a>
+                <a href="index.php" class="nav">Inicio</a>
             </nav>
-        </header>    
+    </header>    
     <main class="menu-juego-php">
         <?php
+        session_start();
+
             require_once 'metodos.php';
 
             $objMetodo = new metodos();
@@ -112,7 +114,7 @@
                    if($objMetodo->comprobarnumrow()>0){
                     echo '<h3 class="true"><a class="true"href="categorias.html">La respuestas es correcta</a></h3>'.'<br>';
                    }else{
-                    echo '<h3><span><a href="index.html">Respuesta incorrecta, intentalo de nuevo</a></span></h3>'.'<br>';
+                    echo '<h3><span><a href="index.php">Respuesta incorrecta, intentalo de nuevo</a></span></h3>'.'<br>';
                    }
                 }else{
                     echo 'Se deben rellenar todos los campos';
@@ -125,6 +127,6 @@
             <h5><a>Contáctanos - 924 00 22 77</a></h5>
             <h5><a>Aviso Legal</a></h5>
             <h5><a>Política de Privacidad</a></h5>
-        </footer>
+    </footer>
     </body>
 </html>

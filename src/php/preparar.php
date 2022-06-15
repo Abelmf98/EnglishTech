@@ -22,7 +22,7 @@
             <h2 class="nombre">EnglishTech</h2>
         </a>
         <nav>
-            <a href="index.html" class="nav">Inicio</a>
+            <a href="index.php" class="nav">Inicio</a>
         </nav>
     </header>
     <main>
@@ -122,7 +122,6 @@
                             </form>
                         ';
                     }else{
-
                         /**
                          * Comprobamos errores
                          */
@@ -162,7 +161,7 @@
                                  */
                                 if($objMetodo->comprobar()>0){
                                     echo '<h3>Se ha añadido correctamente</h3>';
-                                    echo '<a class="d" href="index.html">Volver a inicio</a>';
+                                    echo '<a class="d" href="index.php">Volver a inicio</a>';
                                 }else{
 
                                     echo '<h3>Se ha producido un error</h3>';

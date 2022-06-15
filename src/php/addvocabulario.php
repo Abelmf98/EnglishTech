@@ -22,7 +22,7 @@
             <h2 class="nombre">EnglishTech</h2>
         </a>
         <nav>
-            <a href="index.html" class="nav">Inicio</a>
+            <a href="index.php" class="nav">Inicio</a>
         </nav>
     </header>
     <main>
@@ -150,13 +150,13 @@
                 echo '<a class="d" href="addvocabulario.php">Seguir creando vocabulario</a>';
             }else{
                 echo '<h3>Error al añadir el vocabulario</h3>';
-                echo '<a class="d" href="index.html">Volver a inicio</a>';
+                echo '<a class="d" href="index.php">Volver a inicio</a>';
             }
             
         }
     }else{
         echo '<h3>Es necesario añadir categorias</h3>';
-        echo '<a class="d" href="index.html">Volver a inicio</a>';
+        echo '<a class="d" href="index.php">Volver a inicio</a>';
     }
 
     ?>

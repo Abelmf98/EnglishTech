@@ -4,6 +4,7 @@
      * Archivo de login.
      * @author Abel Mansilla Felipe (amansillafelipe.guadalupe@alumnado.fundacionloyola.net)
      * @license GPLv3 2022.
+     * Insert de usuario y contraseñas encriptadas en el archivo insertUsuariosEnc.sql
      */
 ?>
 <!DOCTYPE html>
@@ -22,11 +23,12 @@
             <h2 class="nombre">EnglishTech</h2>
         </a>
         <nav>
-            <a href="index.html" class="nav">Inicio</a>
+            <a href="index.php" class="nav">Inicio</a>
         </nav>
     </header>
     <main>
         <?php
+        session_start();
         /**
          * Necesitaremos el archivo conexion de la base de datos y el archivo de metodos mysqli
          */
